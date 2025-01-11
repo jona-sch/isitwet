@@ -141,9 +141,7 @@ public class OpenMeteoResultMapper {
         var quarterlyMinTemps = new ArrayList<Float>();
         var quarterlyRain = new ArrayList<Float>();
         var quarterlySnow = new ArrayList<Float>();
-        System.out.println(hourly.getTimes().size());
         for (var i = 0; i < hourly.getTimes().size(); i+=6) {
-            System.out.println(i);
             quarterlyMaxTemps.add(Collections.max(hourly.getTemperatures().subList(i, i + 6)));
             quarterlyMinTemps.add(Collections.min(hourly.getTemperatures().subList(i, i + 6)));
             quarterlyRain.add((float) hourly.getRain().subList(i, i + 6).stream().mapToDouble(a -> a).sum());

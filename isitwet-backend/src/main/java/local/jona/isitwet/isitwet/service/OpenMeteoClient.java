@@ -60,7 +60,6 @@ public class OpenMeteoClient {
         try {
             var response = this.restTemplate.exchange(url, HttpMethod.GET, request, OpenMeteoResult.class);
             if (response.getStatusCode().is2xxSuccessful()) {
-                System.out.println(response.getBody());
                 return response.getBody();
             } else {
                 throw new HttpClientErrorException(
