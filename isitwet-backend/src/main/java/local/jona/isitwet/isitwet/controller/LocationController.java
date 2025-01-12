@@ -52,18 +52,27 @@ public class LocationController {
 
 
     @PostMapping
-    public ResponseEntity<Location> createLocation(@RequestBody Location Location) throws URISyntaxException {
-        Location savedLocation = locationRepository.save(Location);
+    public ResponseEntity<?> createLocation(@RequestBody Location location) throws URISyntaxException {
+        var existingLocation = locationRepository.findByNameIgnoreCaseContaining(location.getName());
+        if (!existingLocation.isEmpty()) {
+            return ResponseEntity.badRequest().body("A location with this name already exists.");
+        }
+        var savedLocation = locationRepository.save(location);
         return ResponseEntity.created(new URI("/locations/" + savedLocation.getId())).body(savedLocation);
     }
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<Location> updateLocation(@PathVariable Long id, @RequestBody Location Location) {
-        Location currentLocation = locationRepository.findById(id).orElseThrow(RuntimeException::new);
-        currentLocation.setLatitude(Location.getLatitude());
-        currentLocation.setLongitude(Location.getLongitude());
-        currentLocation = locationRepository.save(Location);
+    public ResponseEntity<?> updateLocation(@PathVariable Long id, @RequestBody Location location) {
+        var currentLocation = locationRepository.findById(id).orElseThrow(RuntimeException::new);
+        var existingNameLocation = locationRepository.findByNameIgnoreCaseContaining(location.getName());
+        if (!existingNameLocation.isEmpty() && !location.getName().equals(currentLocation.getName())) {
+            return ResponseEntity.badRequest().body("A location with this name already exists.");
+        }
+        currentLocation.setLatitude(location.getLatitude());
+        currentLocation.setLongitude(location.getLongitude());
+        currentLocation.setName(location.getName());
+        currentLocation = locationRepository.save(currentLocation);
 
         return ResponseEntity.ok(currentLocation);
     }
