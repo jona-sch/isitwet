@@ -132,12 +132,6 @@ public class OpenMeteoResult {
         private TemperatureFormat temperatureFormat;
     
         /**
-         * Minimal temperature format.
-         */
-        @JsonProperty("temperature_2m_min")
-        private TemperatureFormat minTemperatureFormat;
-    
-        /**
          * Sunshine duration format.
          */
         @JsonProperty("relative_humidity_2m")
