@@ -40,6 +40,7 @@ function LocationMarker({ addLocation }) {
             console.log('Location saved successfully: ' + newLocationData.name);
             addLocation(newLocationData);
         } else {
+            alert('Error saving location: ' + await response.text());
             console.error('Error saving location: ' + response)
         };
     };

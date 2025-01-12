@@ -31,7 +31,7 @@ class LocationEdit extends Component {
         event.preventDefault();
         const {item} = this.state;
     
-        await fetch('/api/v1/locations' + (item.id ? '/' + item.id : ''), {
+        const response = await fetch('/api/v1/locations' + (item.id ? '/' + item.id : ''), {
             method: (item.id) ? 'PUT' : 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -39,7 +39,12 @@ class LocationEdit extends Component {
             },
             body: JSON.stringify(item),
         });
-        this.props.history.push('/locations');
+        if (!response.ok) {
+            alert('Error saving location: ' + await response.text());
+            console.error('Error saving location: ' + response)
+        } else {
+            this.props.history.push('/locations');
+        }
     }
 
     constructor(props) {
