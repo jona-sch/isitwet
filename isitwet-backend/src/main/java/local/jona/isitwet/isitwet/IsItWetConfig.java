@@ -17,7 +17,7 @@ public class IsItWetConfig {
      */
     @Bean
     public OpenMeteoClient getOpenMeteoClient() {
-        return OpenMeteoClient.getInstance();
+        return new OpenMeteoClient();
     }
 
     /**

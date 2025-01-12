@@ -3,7 +3,6 @@ package local.jona.isitwet.isitwet.service;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.HttpClientErrorException;
@@ -13,11 +12,6 @@ import org.springframework.web.client.RestTemplate;
 import local.jona.isitwet.isitwet.model.OpenMeteoResult;
 
 public class OpenMeteoClient {
-    
-    /**
-     * Singleton.
-     */
-    private static OpenMeteoClient client = new OpenMeteoClient();
 
     /**
      * Open-Meteo URL.
@@ -29,15 +23,6 @@ public class OpenMeteoClient {
      */
     @Autowired
     private RestTemplate restTemplate;
-
-    /**
-     * Get singleton instance.
-     *
-     * @return singleton instance.
-     */
-    public static OpenMeteoClient getInstance() {
-        return client;
-    }
 
     /**
      * Make the request to Open-Meteo API and format answer as OpenMeteoResult.
