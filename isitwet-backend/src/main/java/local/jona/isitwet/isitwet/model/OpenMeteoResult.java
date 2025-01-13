@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import local.jona.isitwet.isitwet.model.format.DurationFormat;
 import local.jona.isitwet.isitwet.model.format.PrecipitationFormat;
-import local.jona.isitwet.isitwet.model.format.PrecipitationFormat;
 import local.jona.isitwet.isitwet.model.format.TemperatureFormat;
 import local.jona.isitwet.isitwet.model.format.TimeFormat;
 import lombok.Data;

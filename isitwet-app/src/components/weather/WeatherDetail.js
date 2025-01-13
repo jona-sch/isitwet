@@ -26,13 +26,16 @@ class WeatherDetail extends Component {
     }
 
     async componentDidMount() {
-        const weatherDetail = await (await fetch(`/api/v1/weather/${this.props.match.params.id}`, {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        })).json();
+        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        const weatherDetail = await (
+            await fetch(`/api/v1/weather/${this.props.match.params.id}?timezone=${timezone}`, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            })
+        ).json();
         const location = await (await fetch(`/api/v1/locations/${this.props.match.params.id}`)).json();
         this.setState({
             weatherItem: weatherDetail,
