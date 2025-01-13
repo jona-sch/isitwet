@@ -3,7 +3,6 @@ package local.jona.isitwet.isitwet.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyFloat;
 import static org.mockito.ArgumentMatchers.eq;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -19,8 +18,6 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import local.jona.isitwet.isitwet.model.OpenMeteoResult;
-import local.jona.isitwet.isitwet.model.dto.WeatherDTO;
-import local.jona.isitwet.isitwet.model.mapper.OpenMeteoResultMapper;
 
 
 public class OpenMeteoClientTests {
@@ -42,9 +39,9 @@ public class OpenMeteoClientTests {
             + "/forecast?latitude=1.0&longitude=0.5"
             + "&daily=temperature_2m_max,temperature_2m_min,sunshine_duration,rain_sum,weather_code,snowfall_sum"
             + "&hourly=temperature_2m,relative_humidity_2m,rain,snowfall,weather_code"
-            + "&timezone=GMT"
             + "&past_days=2"
-            + "&forecast_days=2";
+            + "&forecast_days=2"
+            + "&timezone=Europe/London";
         var expectedResult = new OpenMeteoResult();
         expectedResult.setLongitude(0.5F);
         expectedResult.setLatitude(1.0F);
@@ -55,7 +52,7 @@ public class OpenMeteoClientTests {
             any(),
             eq(OpenMeteoResult.class)
         )).thenReturn(restResponse);
-        var result = openMeteoClient.getWeather(0.5F, 1.0F);
+        var result = openMeteoClient.getWeather(0.5F, 1.0F, "Europe/London");
         assertEquals(expectedResult, result, "We expect the body of the response to be the result.");
 	}
 
@@ -65,9 +62,9 @@ public class OpenMeteoClientTests {
             + "/forecast?latitude=1.0&longitude=0.5"
             + "&daily=temperature_2m_max,temperature_2m_min,sunshine_duration,rain_sum,weather_code,snowfall_sum"
             + "&hourly=temperature_2m,relative_humidity_2m,rain,snowfall,weather_code"
-            + "&timezone=GMT"
             + "&past_days=2"
-            + "&forecast_days=2";
+            + "&forecast_days=2"
+            + "&timezone=Europe/London";
         var restResponse = new ResponseEntity<OpenMeteoResult>(new OpenMeteoResult(), HttpStatusCode.valueOf(500));
         Mockito.when(restTemplateMock.exchange(
             eq(expectedUrl),
@@ -77,7 +74,7 @@ public class OpenMeteoClientTests {
         )).thenReturn(restResponse);
         // var result = openMeteoClient.getWeather(0.5F, 1.0F);
         assertThrows(HttpClientErrorException.class,
-            () -> openMeteoClient.getWeather(0.5F, 1.0F));
+            () -> openMeteoClient.getWeather(0.5F, 1.0F, "Europe/London"));
 	}
 
 	@Test
@@ -86,17 +83,16 @@ public class OpenMeteoClientTests {
             + "/forecast?latitude=1.0&longitude=0.5"
             + "&daily=temperature_2m_max,temperature_2m_min,sunshine_duration,rain_sum,weather_code,snowfall_sum"
             + "&hourly=temperature_2m,relative_humidity_2m,rain,snowfall,weather_code"
-            + "&timezone=GMT"
             + "&past_days=2"
-            + "&forecast_days=2";
+            + "&forecast_days=2"
+            + "&timezone=Europe/London";
         Mockito.when(restTemplateMock.exchange(
             eq(expectedUrl),
             eq(HttpMethod.GET),
             any(),
             eq(OpenMeteoResult.class)
         )).thenThrow(new HttpClientErrorException(HttpStatusCode.valueOf(300)));
-        // var result = openMeteoClient.getWeather(0.5F, 1.0F);
         assertThrows(HttpClientErrorException.class,
-            () -> openMeteoClient.getWeather(0.5F, 1.0F));
+            () -> openMeteoClient.getWeather(0.5F, 1.0F, "Europe/London"));
 	}
 }

@@ -29,17 +29,18 @@ public class OpenMeteoClient {
      *
      * @param longitude float.
      * @param latitude float.
+     * @param timezone string.
      *
      * @return OpenMeteoResult instance containing the response from Open-Meteo.
      */
-    public OpenMeteoResult getWeather(Float longitude, Float latitude) {
+    public OpenMeteoResult getWeather(Float longitude, Float latitude, String timezone) {
         var url = this.openMeteoUrl
             + "/forecast?latitude=" + latitude + "&longitude=" + longitude
             + "&daily=temperature_2m_max,temperature_2m_min,sunshine_duration,rain_sum,weather_code,snowfall_sum"
             + "&hourly=temperature_2m,relative_humidity_2m,rain,snowfall,weather_code"
-            + "&timezone=GMT"
             + "&past_days=2"
-            + "&forecast_days=2";
+            + "&forecast_days=2"
+            + "&timezone=" + timezone;
         var request = new HttpEntity<String>("", this.getHeaders());
 
         try {

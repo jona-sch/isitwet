@@ -2,6 +2,7 @@ package local.jona.isitwet.isitwet.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyFloat;
+import static org.mockito.ArgumentMatchers.anyString;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,9 +39,9 @@ public class WeatherServiceTests {
         result.setLatitude(1.0F);
         result.setElevation(150F);
         var endResult = new WeatherDTO();
-        Mockito.when(localClientMock.getWeather(anyFloat(), anyFloat())).thenReturn(result);
+        Mockito.when(localClientMock.getWeather(anyFloat(), anyFloat(), anyString())).thenReturn(result);
         Mockito.when(mapper.openMeteoResultToWeatherDTO(result)).thenReturn(endResult);
-        var weatherDTO = weatherService.getWeather(0.5F, 1.0F);
+        var weatherDTO = weatherService.getWeather(0.5F, 1.0F, "Europe/London");
         assertEquals(endResult, weatherDTO, "We expect the output of the mapper as end result.");
 	}  
 }

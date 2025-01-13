@@ -34,9 +34,10 @@ public class WeatherController {
     @ApiResponse(description = "Get weather for a specific longitude/latitude.", responseCode = "200")
     public ResponseEntity<WeatherDTO> getWeather(
             @RequestParam(required = true) Float longitude,
-            @RequestParam(required = true) Float latitude
+            @RequestParam(required = true) Float latitude,
+            @RequestParam(required = false, defaultValue = "GMT") String timezone
         ) {
-        var response = this.weatherService.getWeather(longitude, latitude);
+        var response = this.weatherService.getWeather(longitude, latitude, timezone);
         return ResponseEntity.ok(response);
     }
     
@@ -45,11 +46,12 @@ public class WeatherController {
     @GetMapping("/{id}")
     @ApiResponse(description = "Get weather for a specific location.", responseCode = "200")
     public ResponseEntity<WeatherDTO> getWeather(
-            @PathVariable Long id
+            @PathVariable Long id,
+            @RequestParam(required = false, defaultValue = "GMT") String timezone
         ) {
         var location = locationRepository.findById(id);
         if (location.isPresent()) {
-            var response = this.weatherService.getWeather(location.get().getLongitude(), location.get().getLatitude());
+            var response = this.weatherService.getWeather(location.get().getLongitude(), location.get().getLatitude(), timezone);
             return ResponseEntity.ok(response);
         }
         return ResponseEntity.badRequest().build();

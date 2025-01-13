@@ -16,8 +16,8 @@ public class WeatherService {
     @Autowired
     private OpenMeteoClient openMeteoClient;
 
-    public WeatherDTO getWeather(Float longitude, Float latitude) {
-        var response = this.openMeteoClient.getWeather(longitude, latitude);
+    public WeatherDTO getWeather(Float longitude, Float latitude, String timezone) {
+        var response = this.openMeteoClient.getWeather(longitude, latitude, timezone);
         var result = this.openMeteoResultMapper.openMeteoResultToWeatherDTO(response);
         return result;
     }
