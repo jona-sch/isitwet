@@ -1,0 +1,12 @@
+services:
+  react-app:
+    build: ./isitwet-app
+    ports:
+      - "80:80"
+    depends_on:
+      - spring-boot-app
+
+  spring-boot-app:
+    build: ./isitwet-backend
+    ports:
+      - "8080:8080"
