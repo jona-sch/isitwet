@@ -8,6 +8,23 @@ You can:
 - see weather for each location: 2 previous days, current day and next day
   (table overview and detailed view available).
 
+## Deployment
+
+Easily deployable using docker-compose.
+
+First package the backend:
+
+```
+cd isitwet-backend
+mvn clean package
+```
+
+Then run docker-compose. This commands also builds the docker images:
+
+```
+docker-compose up --build
+```
+
 ## Dev
 
 ### Backend
