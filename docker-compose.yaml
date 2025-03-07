@@ -7,7 +7,7 @@ services:
     depends_on:
       - spring-boot-app
     volumes:
-      - /home/jona/dev/isitwet/certs/:/etc/certs/
+      - /etc/certs/isitwet:/etc/certs/
 
   spring-boot-app:
     build: ./isitwet-backend
