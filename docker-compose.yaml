@@ -3,8 +3,11 @@ services:
     build: ./isitwet-app
     ports:
       - "80:80"
+      - "443:443"
     depends_on:
       - spring-boot-app
+    volumes:
+      - /home/jona/dev/isitwet/certs/:/etc/certs/
 
   spring-boot-app:
     build: ./isitwet-backend
