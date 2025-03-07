@@ -8,7 +8,7 @@ import ToggleButton from '../utils/ToggleButton';
 import DetailedWeatherChart from './DetailedWeatherChart';
 
 import './css/WeatherDetail.css'
-
+import '../css/Home.css'
 
 class WeatherDetail extends Component {
 
@@ -354,7 +354,7 @@ class WeatherDetail extends Component {
 
         return (
             <div>
-                <Container fluid>
+                <Container className="css-padding">
                     <Row>
                         <div className="d-flex justify-content-between align-items-center mb-3">
                             <h3>{locationItem.name}</h3>

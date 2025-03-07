@@ -3,6 +3,7 @@ import { Button, ButtonGroup, Container, Table, Form, FormGroup, Label, Input, R
 import { Link } from 'react-router-dom'
 import LeafletMapComponent from '../map/LeafletMapComponent';
 
+import '../css/Home.css'
 
 class LocationList extends Component {
 
@@ -85,7 +86,7 @@ class LocationList extends Component {
     
         return (
             <div>
-                <Container fluid>
+                <Container className="css-padding">
                     <div className="d-flex justify-content-between align-items-center mb-3">
                         <h3 className="mb-0">Locations</h3>
                         <Button color="success" tag={Link} to="/locations/new">Add Location</Button>

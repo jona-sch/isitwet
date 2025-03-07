@@ -7,11 +7,13 @@ import creationImg from './images/creation.png';
 import viewDetailsImg from './images/view_details.png';
 import weatherImg from './images/weather.png';
 
+import './css/Home.css'
+
 class Home extends Component {
     render() {
         return (
             <div>
-                <Container fluid>
+                <Container className="css-padding">
                     <Row>
                         <Col md={5} sm={12} className="component-col">
                             <br></br>
