@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@auth0/auth0-react": "^2.3.0",
     "axios": "^1.7.9",
     "bootstrap": "5.1",
     "cra-template": "1.2.0",
@@ -46,5 +47,5 @@
     "@types/react-router-dom": "^5.3.3",
     "web-vitals": "^4.2.4"
   },
-  "proxy": "http://localhost:8080"
+  "proxy": "http://127.0.0.1:8080"
 }

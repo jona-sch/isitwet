@@ -32,6 +32,29 @@ Then run docker-compose. This commands also builds the docker images:
 docker-compose up --build
 ```
 
+## Authentication
+
+Authentication and autorization is offered through Auth0. 
+
+First thing you need is an Auth0 account and single-page application configured 
+with correct callback URL, logout URL and allowed web origins.
+
+### For development
+You will need to create a `.env` file in `isitwet-app` with contents:
+```
+REACT_APP_API_SERVER_URL=http://localhost:8080
+REACT_APP_AUTH0_DOMAIN=xxx.eu.auth0.com
+REACT_APP_AUTH0_CLIENT_ID=xxx
+REACT_APP_AUTH0_CALLBACK_URL=http://localhost:3000/callback
+```
+
+### For deployment
+You will need to fill environment vars in the docker-compose file:
+```
+- REACT_APP_AUTH0_DOMAIN=xxx.eu.auth0.com
+- REACT_APP_AUTH0_CLIENT_ID=xxx
+```
+
 ## Dev
 
 ### Backend
