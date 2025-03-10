@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Link, withRouter } from 'react-router-dom';
-import { Button, Container, Form, FormGroup, Input, Label } from 'reactstrap';
+import { Link, NavLink, withRouter } from 'react-router-dom';
+import { PageLayout } from '../utils/PageLayout';
 
 
 class LocationEdit extends Component {
@@ -61,32 +61,33 @@ class LocationEdit extends Component {
         const title = <h2>{item.id ? 'Edit Location' : 'Add Location'}</h2>;
         const isEnabled = item.name !== '' && item.longitude !== '' && item.latitude !== '';
     
-        return <div>
-            <Container>
-                {title}
-                <Form onSubmit={this.handleSubmit}>
-                    <FormGroup>
-                        <Label for="name">Name</Label>
-                        <Input type="text" name="name" id="name" value={item.name || ''}
-                               onChange={this.handleChange} autoComplete="name"/>
-                    </FormGroup>
-                    <FormGroup>
-                        <Label for="longitude">Longitude</Label>
-                        <Input type="number" name="longitude" id="longitude" value={item.longitude || ''}
-                               onChange={this.handleChange} autoComplete="longitude"/>
-                    </FormGroup>
-                    <FormGroup>
-                        <Label for="latitude">Latitude</Label>
-                        <Input type="number" name="latitude" id="latitude" value={item.latitude || ''}
-                               onChange={this.handleChange} autoComplete="latitude"/>
-                    </FormGroup>
-                    <FormGroup>
-                        <Button color="primary" type="submit" disabled={!isEnabled}>Save</Button>{' '}
-                        <Button color="secondary" tag={Link} to="/locations">Cancel</Button>
-                    </FormGroup>
-                </Form>
-            </Container>
-        </div>
+        return (
+            <PageLayout>
+                <div>
+                    {title}
+                    <form onSubmit={this.handleSubmit}>
+                        <div className="form__group field">
+                            <input type="text" name="name" id="name" value={item.name || ''} className="form__field"
+                                    onChange={this.handleChange} autoComplete="name" placeholder="Name"/>
+                            <label for="name" className="form__label">Name</label>
+                        </div>
+                        <div className="form__group field">
+                            <input type="number" name="longitude" id="longitude" value={item.longitude || ''} className="form__field"
+                                    onChange={this.handleChange} autoComplete="longitude" placeholder="Longitude"/>
+                            <label for="longitude" className="form__label">Longitude</label>
+                        </div>
+                        <div className="form__group field">
+                            <input type="number" name="latitude" id="latitude" value={item.latitude || ''} className="form__field"
+                                    onChange={this.handleChange} autoComplete="latitude" placeholder="Latitude"/>
+                            <label for="latitude" className="form__label">Latitude</label>
+                        </div>
+                        <div>
+                            <button className="button__save-location" type="submit" disabled={!isEnabled}>Save</button>{' '}
+                            <NavLink tag={Link} to="/locations"><button className="button__save-location">Cancel</button></NavLink>
+                        </div>
+                    </form>
+                </div>
+            </PageLayout>);
     }
 }
 export default withRouter(LocationEdit);

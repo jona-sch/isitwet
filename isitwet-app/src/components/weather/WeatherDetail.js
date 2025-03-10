@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
-import { Button, Container, Table, Row, Col } from 'reactstrap';
-import { Link } from 'react-router-dom';
 
 import iconMapping from './icons/IconMapping'
 import LocationDetail from './LocationDetail'
 import ToggleButton from '../utils/ToggleButton';
 import DetailedWeatherChart from './DetailedWeatherChart';
+import { PageLayout } from '../utils/PageLayout';
+import { PageLoader } from '../utils/PageLoader';
 
-import './css/WeatherDetail.css'
-import '../css/Home.css'
 
 class WeatherDetail extends Component {
 
@@ -59,7 +57,9 @@ class WeatherDetail extends Component {
         const sunEmoji = String.fromCodePoint(0x2600);
     
         if (isLoading) {
-            return <p>Loading...</p>;
+            return <div className="page-layout">
+                <PageLoader />
+            </div>;
         }
 
         let displaySnow = weatherItem.daily.minTemperatures.some((temp) => {return temp < 2.0})
@@ -317,20 +317,32 @@ class WeatherDetail extends Component {
             }
             let before = <></>;
             let after = <></>;
+            let detail = <>
+                <th>0-6h</th>
+                <th>6h-12h</th>
+                <th>12h-18h</th>
+                <th>18h-24h</th>
+            </> 
             if (detailedIndex === 0) {
                 after = <>
                     <th></th>
-                    <th></th>
+                    <th className="table-primary"></th>
                     <th></th>
                 </>
             } else if (detailedIndex === 1) {
                 before = <th></th>
                 after = <>
-                    <th></th>
+                    <th className="table-primary"></th>
                     <th></th>
                 </>
             } else if (detailedIndex === 2) {
                 after = <th></th>
+                detail = <>
+                    <th className="table-primary">0-6h</th>
+                    <th className="table-primary">6h-12h</th>
+                    <th className="table-primary">12h-18h</th>
+                    <th className="table-primary">18h-24h</th>
+                </> 
                 before = <>
                     <th></th>
                     <th></th>
@@ -339,78 +351,76 @@ class WeatherDetail extends Component {
                 before = <>
                     <th></th>
                     <th></th>
-                    <th></th>
+                    <th className="table-primary"></th>
                 </>
             }
             return <tr key="dayDetail" className>
                 {before}
-                <th>0-6h</th>
-                <th>6h-12h</th>
-                <th>12h-18h</th>
-                <th>18h-24h</th>
+                {detail}
                 {after}
             </tr>
         }
 
         return (
+            <PageLayout>
             <div>
-                <Container className="css-padding">
-                    <Row>
-                        <div className="d-flex justify-content-between align-items-center mb-3">
-                            <h3>{locationItem.name}</h3>
-                            <Button className="mb-0" color="success" tag={Link} to="/locations">Back</Button>
-                        </div>
-                    </Row>
-                    <Row>
-                        <Col md={3} sm={12} className="component-col">
-                            <LocationDetail
-                                locationItem={locationItem}
-                                weatherItem={weatherItem}
-                            />
-                        </Col>
-                        <Col md={9} sm={12} className="component-col">
-                            Show detailed weather
-                            <ToggleButton
-                                isOn={detailedWeather}
-                                handleToggle={this.switchWeatherView}
-                            />
-                            <div>
-                                {!detailedWeather ?
-                                    <Table className="mt-4">
-                                        <thead>
-                                            <tr key="dates">
-                                                {datesRow(hoveredColumn)}
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {dayDetailRow(hoveredColumn)}
-                                            <tr key="weatherCodes" className>
-                                                {weatherCodesRow(hoveredColumn)}
-                                            </tr>
-                                            <tr key="maxTemps" className="table-warning">
-                                                {maxTemperaturesRow(hoveredColumn)}
-                                            </tr>
-                                            <tr key="minTemps" className="table-info">
-                                                {minTemperaturesRow(hoveredColumn)}
-                                            </tr>
-                                            <tr key="sunDuration">
-                                                {sunshineDurationRow(hoveredColumn)}
-                                            </tr>
-                                            <tr key="rainSum" className="table-primary">
-                                                {rainSumRow(hoveredColumn)}
-                                            </tr>
-                                        </tbody>
-                                    </Table>
-                                : <DetailedWeatherChart
-                                    weatherItem={weatherItem}
-                                    displayRain={displayRain}
-                                    displaySnow={displaySnow}
-                                /> }
-                            </div>
-                        </Col>
-                    </Row>
-                </Container>
+                <div className="banner banner--pink-yellow">
+                    <h1 className="banner__headline">{locationItem.name}</h1>
+                    {/* <NavLink className="button button--secondary" color="success" tag={Link} to="/locations">Back</NavLink> */}
+                    <LocationDetail
+                        locationItem={locationItem}
+                        weatherItem={weatherItem}
+                    />
+                    <ToggleButton
+                        isOn={detailedWeather}
+                        handleToggle={this.switchWeatherView}
+                    />
+                </div>
+                <div>
+                    <div>
+                        {!detailedWeather ?
+                            <table className="table" cellspacing="0" cellpadding="0">
+                                <thead className="table-header">
+                                    <tr key="dates">
+                                        {datesRow(hoveredColumn)}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {dayDetailRow(hoveredColumn)}
+                                    <tr key="weatherCodes" className="table-row">
+                                        {weatherCodesRow(hoveredColumn)}
+                                    </tr>
+                                    <tr key="maxTemps" className="table-row table-warning">
+                                        {maxTemperaturesRow(hoveredColumn)}
+                                    </tr>
+                                    <tr key="minTemps" className="table-row table-info">
+                                        {minTemperaturesRow(hoveredColumn)}
+                                    </tr>
+                                    <tr key="sunDuration" className="table-row">
+                                        {sunshineDurationRow(hoveredColumn)}
+                                    </tr>
+                                    <tr key="rainSum" className="table-row table-rain">
+                                        {rainSumRow(hoveredColumn)}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        : <DetailedWeatherChart
+                            weatherItem={weatherItem}
+                            displayRain={displayRain}
+                            displaySnow={displaySnow}
+                        /> }
+                    </div>
+                    {/* <NavLink tag={Link} to="/locations"><a
+                        id="back_link"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="button button--secondary"
+                    >
+                        Back
+                    </a></NavLink> */}
+                </div>
             </div>
+            </PageLayout>
         );
     }
 }

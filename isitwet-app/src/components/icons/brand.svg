@@ -1,0 +1,11 @@
+<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg">
+
+ <g>
+  <title>Layer 1</title>
+  <g id="mountain-left-2">
+   <path stroke="#4c4c4c" d="m13.70607,5.217a1.0018,1.31735 0 0 0 -1.83817,0l-2.57344,6.68342l0,0l-1.32348,-3.93996a0.91908,1.20858 0 0 0 -1.65435,0l-3.86015,10.99804l16.54352,0l-5.29393,-13.7415z" fill="#b2b2b2" id="secondary"/>
+   <path stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="#4c4c4c" fill="#b2b2b2" d="m13.70607,5.217a1.0018,1.31735 0 0 0 -1.83817,0l-2.57344,6.68342l0,0l-1.32348,-3.93996a0.91908,1.20858 0 0 0 -1.65435,0l-3.86015,10.99804l16.54352,0l-5.29393,-13.7415z" id="primary"/>
+  </g>
+  <ellipse ry="2.77087" rx="2.77087" id="svg_1" cy="3.49911" cx="3.42806" stroke="#4c4c4c" fill="#b2b2b2"/>
+ </g>
+</svg>
