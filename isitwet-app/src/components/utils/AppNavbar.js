@@ -1,11 +1,11 @@
 import React from 'react';
-import { Navbar, NavbarBrand } from 'reactstrap';
-import { Link } from 'react-router-dom';
 import { useAuth0 } from "@auth0/auth0-react";
 
 import { LoginButton } from "../../auth/LoginButton";
 import { LogoutButton } from "../../auth/LogoutButton";
 import { SignupButton } from "../../auth/SignupButton";
+import { NavBarBrand } from "./navbar/NavBarBrand";
+import { NavBarTabs } from "./navbar/NavBarTabs";
 
 
 export const AppNavbar = () => {
@@ -13,9 +13,11 @@ export const AppNavbar = () => {
     console.log(isAuthenticated);
 
     return (
-        <Navbar color="dark" dark expand="md">
-            <NavbarBrand tag={Link} to="/">Home</NavbarBrand>
-            <div>
+        <div className="nav-bar__container">
+          <nav className="nav-bar">
+            <NavBarBrand />
+            <NavBarTabs />
+            <div className="nav-bar__buttons">
                 {!isAuthenticated && (
                     <>
                     <SignupButton />
@@ -28,6 +30,7 @@ export const AppNavbar = () => {
                     </>
                 )}
             </div>
-        </Navbar>
+          </nav>
+        </div>
     );
 }

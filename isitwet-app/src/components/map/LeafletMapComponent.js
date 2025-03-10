@@ -8,6 +8,7 @@ import LeafletControlGeocoder from './LeafletControlGeocoder';
 
 import './css/MapComponent.css';
 import 'leaflet/dist/leaflet.css';
+import { Link, NavLink } from 'react-router-dom';
 
 
 function LocationMarker({ addLocation }) {
@@ -52,23 +53,21 @@ function LocationMarker({ addLocation }) {
         >
             <Popup>
                 <strong>Add a new location</strong>
-                <Form onSubmit={handleSubmit} style={{width: "10rem"}}>
-                    <FormGroup>
-                        <Label for="name">Name</Label>
-                        <Input type="text" name="name" id="name" value={newLocationName || ''} bsSize="sm"
-                               onChange={(e) => setNewLocationName(e.target.value)} autoComplete="name"/>
-                    </FormGroup>
-                    <FormGroup>
-                        <Button
-                            color="primary"
+                <form onSubmit={handleSubmit} style={{width: "13rem"}}>
+                    <div className="form__group_view-weather field">
+                        <label for="name" className="form__label_view-weather">Name</label>
+                        <input type="text" name="name" id="name" value={newLocationName || ''}
+                               onChange={(e) => setNewLocationName(e.target.value)} autoComplete="name" className="form__field_view-weather"/>
+                        <button
+                            className="button__view-weather"
                             type="submit"
                             size="sm"
                             disabled={newLocationName===""}
                         >
                             Save
-                        </Button>
-                    </FormGroup>
-                </Form>
+                        </button>
+                    </div>
+                </form>
             </Popup>
         </Marker>
     )
@@ -84,7 +83,18 @@ function LeafletMapComponent({ locations, addLocation }) {
                 position={[location.latitude, location.longitude]}
                 icon={new Icon({iconUrl: markerIconSvg, iconSize: [31, 48], iconAnchor: [12, 41]})}
             >
-                <Popup><strong>{location.name}</strong><br/><a href={`weather/${location.id}`}>View Details</a></Popup>
+                <Popup>
+                    <strong>{location.name}</strong>
+                    <br/>
+                    <NavLink tag={Link} to={`/weather/${location.id}`}><button
+                        id="back_link"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="button__view-weather"
+                    >
+                        View Weather
+                    </button></NavLink>
+                </Popup>
             </Marker>
         );
     })

@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Button, ButtonGroup, Container, Table, Form, FormGroup, Label, Input, Row, Col } from 'reactstrap';
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 
 import LeafletMapComponent from '../map/LeafletMapComponent';
 
-import '../css/Home.css'
+import { PageLayout } from '../utils/PageLayout';
+import { PageLoader } from '../utils/PageLoader';
 
 const LocationList = () => {
     const isAuthenticated = true;
@@ -54,80 +55,104 @@ const LocationList = () => {
     };
 
     if (isLoading) {
-        return <p>Loading...</p>;
+        return <div className="page-layout">
+            <PageLoader />
+        </div>;
     }
 
     const locationsList = locations.map(location => (
-        <tr key={location.id}>
-            <td>{location.name}</td>
+        <tr key={location.id} className="table-row">
+            <td style={{ paddingLeft: "1rem", textAlign: "left" }}>{location.name}</td>
             <td>{location.longitude}</td>
             <td>{location.latitude}</td>
-            <td>
-                <ButtonGroup>
-                    <Button size="sm" color="primary" tag={Link} to={`/locations/${location.id}`}>Edit</Button>
-                    <Button size="sm" color="primary" tag={Link} to={`/weather/${location.id}`}>Weather</Button>
-                    <Button size="sm" color="danger" onClick={() => remove(location.id)}>Delete</Button>
-                </ButtonGroup>
+            <td style={{ paddingLeft: "1rem", textAlign: "right" }}>
+                <NavLink tag={Link} to={`/locations/${location.id}`}><a
+                    id="back_link"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="button__action"
+                >
+                    Edit
+                </a></NavLink>
+                <NavLink tag={Link} to={`/weather/${location.id}`}><a
+                    id="back_link"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="button__action"
+                >
+                    Weather
+                </a></NavLink>
+                <a
+                    id="back_link"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="button__action"
+                    onClick={() => remove(location.id)}
+                >
+                    Delete
+                </a>
             </td>
         </tr>
     ));
 
     return (
+        <PageLayout>
         <div>
             {isAuthenticated ?
             <div>
-            <Container className="css-padding">
-                <div className="d-flex justify-content-between align-items-center mb-3">
-                    <h3 className="mb-0">Locations</h3>
-                    <Button color="success" tag={Link} to="/locations/new">Add Location</Button>
+                <header className="page-header">
+                    <h1>Locations</h1>
+                    <span fxFlex></span>
+                    <NavLink tag={Link} to="/locations/new"><a
+                        id="back_link"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="button__add_location"
+                    >
+                        Add location
+                    </a></NavLink>
+                </header>
+
+                <form onSubmit={handleSearch} className="page-header">
+                    <div className="form__group field">
+                        <input
+                            type="text"
+                            name="nameSearch"
+                            id="nameSearch"
+                            value={searchName || ''}
+                            onChange={handleChange}
+                            className="form__field"
+                            placeholder="Name"
+                        />
+                        <label for="name" className="form__label">Search by name</label>
+                    </div>
+                    <button color="primary" type="submit" className="button__search">Search</button>
+                </form>
+
+                <div style={{ maxHeight: "45rem", overflowY: "auto" }}>
+                    <table className="table" hover cellspacing="0" cellpadding="0">
+                        <thead className="table-header__locations">
+                            <tr className="table-row">
+                                <th width="28%" style={{ paddingLeft: "1rem", textAlign: "left" }}>Name</th>
+                                <th width="28%">Longitude</th>
+                                <th width="28%">Latitude</th>
+                                <th width="16%"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {locationsList}
+                        </tbody>
+                    </table>
                 </div>
-
-                <Container fluid style={{ height: "50rem" }}>
-                    <Row className="h-75">
-                        <Col md={5} sm={12} className="component-col">
-                            <Form onSubmit={handleSearch}>
-                                <FormGroup>
-                                    <Label for="nameSearch">Search by name</Label>
-                                    <Input
-                                        type="text"
-                                        name="nameSearch"
-                                        id="nameSearch"
-                                        value={searchName || ''}
-                                        onChange={handleChange}
-                                    />
-                                </FormGroup>
-                                <FormGroup>
-                                    <Button color="primary" type="submit">Search</Button>
-                                </FormGroup>
-                            </Form>
-
-                            <div style={{ maxHeight: "30rem", overflowY: "auto" }}>
-                                <Table className="mt-4" hover>
-                                    <thead>
-                                        <tr>
-                                            <th width="28%">Name</th>
-                                            <th width="28%">Longitude</th>
-                                            <th width="28%">Latitude</th>
-                                            <th width="16%">Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {locationsList}
-                                    </tbody>
-                                </Table>
-                            </div>
-                        </Col>
-                        <Col md={7} sm={12} className="component-col">
-                            <LeafletMapComponent
-                                locations={locations}
-                                addLocation={addLocation}
-                            />
-                        </Col>
-                    </Row>
-                </Container>
-            </Container>
+                <div style={{ height: "40rem", width: "100%" }}>
+                <LeafletMapComponent
+                    locations={locations}
+                    addLocation={addLocation}
+                />
+                </div>
             </div> : <div><p>Please log in.</p></div> }
         </div>
+        </PageLayout>
     );
 };
 

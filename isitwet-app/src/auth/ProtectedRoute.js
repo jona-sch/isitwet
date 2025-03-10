@@ -1,13 +1,14 @@
 import { withAuthenticationRequired } from "@auth0/auth0-react";
 import React from "react";
 import { Route } from "react-router-dom";
+import { PageLoader } from "../components/utils/PageLoader";
 
 export const ProtectedRoute = ({ component, ...args }) => (
   <Route
     component={withAuthenticationRequired(component, {
       onRedirecting: () => (
-        <div>
-          <p>Loading...</p>
+        <div className="page-layout">
+          <PageLoader />
         </div>
       ),
     })}
