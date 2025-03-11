@@ -1,4 +1,12 @@
 services:
+  spring-boot-app:
+    # depends_on:
+    #   mysql:
+    #     condition: service_healthy
+    build: ./isitwet-backend
+    ports:
+      - "8080:8080"
+
   react-app:
     build: ./isitwet-app
     ports:
@@ -8,13 +16,3 @@ services:
       - spring-boot-app
     volumes:
       - /etc/certs/isitwet:/etc/certs/
-    environment:
-      - REACT_APP_API_SERVER_URL=http://spring-boot-app:8080
-      - REACT_APP_AUTH0_DOMAIN=xxx
-      - REACT_APP_AUTH0_CLIENT_ID=xxx
-      - REACT_APP_AUTH0_CALLBACK_URL=https://localhost:443/callback
-
-  spring-boot-app:
-    build: ./isitwet-backend
-    ports:
-      - "8080:8080"

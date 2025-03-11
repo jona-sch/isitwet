@@ -49,17 +49,29 @@ REACT_APP_AUTH0_CALLBACK_URL=http://localhost:3000/callback
 ```
 
 ### For deployment
-You will need to fill environment vars in the docker-compose file:
+Same with (before building Dockerfile):
 ```
-- REACT_APP_AUTH0_DOMAIN=xxx.eu.auth0.com
-- REACT_APP_AUTH0_CLIENT_ID=xxx
+REACT_APP_API_SERVER_URL=http://spring-boot-app:8080
+REACT_APP_AUTH0_DOMAIN=xxx
+REACT_APP_AUTH0_CLIENT_ID=xxx
+REACT_APP_AUTH0_CALLBACK_URL=https://localhost:443/callback
 ```
+
+## Database
+
+The database for the backend is a basic mysql Docker container with persistence on host file.
+To launch it, simply run `docker-compose -f docker-compose-sql.yaml up`.
+
+The `application.properties` needs to be tuned depending on dev/deploy:
+- For dev: uncomment line `spring.datasource.url=jdbc:mysql://localhost:3306/isitwet_db`.
+- For deployment: uncomment line `spring.datasource.url=jdbc:mysql://mysql:3306/isitwet_db`.
 
 ## Dev
 
 ### Backend
 
-Based on SpringBoot and an H2 database.
+Based on SpringBoot and the provided mysql database container (see above).
+In `application.properties`, uncomment line `spring.datasource.url=jdbc:mysql://localhost:3306/isitwet_db`.
 
 To run the backend in dev mode on port 8080:
 
