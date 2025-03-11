@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet';
-import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
 import {Icon} from 'leaflet'
 import markerIconSvg from "./icons/climber-icon.svg"
 import newMarkerIconSvg from "./icons/climber-icon-create.svg"
@@ -11,7 +10,7 @@ import 'leaflet/dist/leaflet.css';
 import { Link, NavLink } from 'react-router-dom';
 
 
-function LocationMarker({ addLocation }) {
+function LocationMarker({ addLocation, accessToken }) {
     const [position, setPosition] = useState(null);
     const [newLocationName, setNewLocationName] = useState('');
 
@@ -28,7 +27,8 @@ function LocationMarker({ addLocation }) {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`
             },
             body: JSON.stringify({
                 name: newLocationName,
@@ -74,7 +74,7 @@ function LocationMarker({ addLocation }) {
 }  
 
 
-function LeafletMapComponent({ locations, addLocation }) {
+function LeafletMapComponent({ locations, addLocation, accessToken }) {
 
     const markers = locations.map(location => {
         return (
@@ -107,7 +107,7 @@ function LeafletMapComponent({ locations, addLocation }) {
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
                 {markers}
-                <LocationMarker addLocation={addLocation}/>
+                <LocationMarker addLocation={addLocation} accessToken={accessToken}/>
                 <LeafletControlGeocoder/>
             </MapContainer>
         </div>

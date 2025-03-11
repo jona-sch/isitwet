@@ -39,22 +39,34 @@ Authentication and autorization is offered through Auth0.
 First thing you need is an Auth0 account and single-page application configured 
 with correct callback URL, logout URL and allowed web origins.
 
-### For development
+### Backend
+
+You will need to update the `application.properties`:
+
+```
+auth0.domain=TO_SET
+```
+
+### Frontend
+
+#### For development
 You will need to create a `.env` file in `isitwet-app` with contents:
 ```
 REACT_APP_API_SERVER_URL=http://localhost:8080
 REACT_APP_AUTH0_DOMAIN=xxx.eu.auth0.com
 REACT_APP_AUTH0_CLIENT_ID=xxx
 REACT_APP_AUTH0_CALLBACK_URL=http://localhost:3000/callback
+REACT_APP_AUTH0_AUDIENCE=xxx
 ```
 
-### For deployment
+#### For deployment
 Same with (before building Dockerfile):
 ```
 REACT_APP_API_SERVER_URL=http://spring-boot-app:8080
-REACT_APP_AUTH0_DOMAIN=xxx
+REACT_APP_AUTH0_DOMAIN=xxx.eu.auth0.com
 REACT_APP_AUTH0_CLIENT_ID=xxx
 REACT_APP_AUTH0_CALLBACK_URL=https://localhost:443/callback
+REACT_APP_AUTH0_AUDIENCE=xxx
 ```
 
 ## Database

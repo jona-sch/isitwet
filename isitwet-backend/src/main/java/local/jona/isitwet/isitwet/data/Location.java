@@ -41,4 +41,10 @@ public class Location {
     @NotNull
     @Column(unique=true)
     private String name;
+
+    /**
+     * Name.
+     */
+    @NotNull
+    private String userId;
 }

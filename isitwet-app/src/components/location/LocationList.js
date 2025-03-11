@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { Button, ButtonGroup, Container, Table, Form, FormGroup, Label, Input, Row, Col } from 'reactstrap';
+import React, { useState, useEffect } from 'react';
+import { useAuth0 } from '@auth0/auth0-react';
 import { Link, NavLink } from 'react-router-dom'
 
 import LeafletMapComponent from '../map/LeafletMapComponent';
@@ -8,20 +8,41 @@ import { PageLayout } from '../utils/PageLayout';
 import { PageLoader } from '../utils/PageLoader';
 
 const LocationList = () => {
-    const isAuthenticated = true;
+    // const isAuthenticated = true;
 
     const [locations, setLocations] = useState([]);
     const [searchName, setSearchName] = useState('');
     const [isLoading, setIsLoading] = useState(true);
-
+    const { getAccessTokenSilently, isAuthenticated } = useAuth0();
+    const [token, setToken] = useState("");
+  
     useEffect(() => {
-        fetch('/api/v1/locations')
-            .then(response => response.json())
-            .then(data => {
-                setLocations(data);
-                setIsLoading(false);
-            });
-    }, []); // Empty dependency array means this runs once after the component mounts
+        const fetchToken = async () => {
+            try {
+                const accessToken = await getAccessTokenSilently({
+                    scope: "read:current_user"
+                });
+                setToken(accessToken);
+                fetch('/api/v1/locations', {
+                    method: 'GET',
+                    headers: {
+                      Authorization: `Bearer ${accessToken}`,
+                    }
+                }).then(response => response.json())
+                    .then(data => {
+                        setLocations(data);
+                        setIsLoading(false);
+                    });
+            } catch (error) {
+                console.error("Error fetching token:", error);
+            }
+        };
+      
+        if (isAuthenticated) {
+            fetchToken();
+        }
+        console.log("abc: " + token);
+    }, [getAccessTokenSilently, isAuthenticated, token]);
 
     const handleChange = (event) => {
         const value = event.target.value;
@@ -31,7 +52,11 @@ const LocationList = () => {
     const handleSearch = (event) => {
         event.preventDefault();
         fetch(`/api/v1/locations/query?nameSlice=${searchName}`, {
-            method: 'GET'
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
         }).then(response => response.json())
           .then(data => {
               setLocations(data);
@@ -43,7 +68,8 @@ const LocationList = () => {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
             }
         }).then(() => {
             setLocations(locations.filter(location => location.id !== id));
@@ -54,11 +80,11 @@ const LocationList = () => {
         setLocations([...locations, newLocation]);
     };
 
-    if (isLoading) {
-        return <div className="page-layout">
-            <PageLoader />
-        </div>;
-    }
+    // if (isLoading) {
+    //     return <div className="page-layout">
+    //         <PageLoader />
+    //     </div>;
+    // }
 
     const locationsList = locations.map(location => (
         <tr key={location.id} className="table-row">
@@ -130,7 +156,7 @@ const LocationList = () => {
                 </form>
 
                 <div style={{ maxHeight: "45rem", overflowY: "auto" }}>
-                    <table className="table" hover cellspacing="0" cellpadding="0">
+                    <table className="table" hover cellSpacing="0" cellPadding="0">
                         <thead className="table-header__locations">
                             <tr className="table-row">
                                 <th width="28%" style={{ paddingLeft: "1rem", textAlign: "left" }}>Name</th>
@@ -148,6 +174,7 @@ const LocationList = () => {
                 <LeafletMapComponent
                     locations={locations}
                     addLocation={addLocation}
+                    accessToken={token}
                 />
                 </div>
             </div> : <div><p>Please log in.</p></div> }

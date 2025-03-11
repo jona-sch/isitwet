@@ -10,6 +10,7 @@ create table if not exists location (
     longitude float(23) not null,
     id bigint not null,
     name varchar(255) not null unique,
+    user_id varchar(255) not null,
     primary key (id)
 );
 create table if not exists location_seq (
