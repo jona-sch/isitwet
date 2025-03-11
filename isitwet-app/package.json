@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@auth0/auth0-react": "^2.3.0",
-    "axios": "^1.7.9",
+    "axios": "^1.8.2",
     "bootstrap": "5.1",
     "cra-template": "1.2.0",
     "leaflet": "^1.9.4",
