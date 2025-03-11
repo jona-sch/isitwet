@@ -16,13 +16,15 @@ import { ProtectedRoute } from "./auth/ProtectedRoute";
 export const App = () => {
   const { isLoading } = useAuth0();
 
-  if (isLoading) {
-    return (
-      <div className="page-layout">
-        <PageLoader />
-      </div>
-    );
-  }
+  console.log(isLoading);
+
+  // if (isLoading) {
+  //   return (
+  //     <div className="page-layout">
+  //       <PageLoader />
+  //     </div>
+  //   );
+  // }
 
   return (
     <Switch>
