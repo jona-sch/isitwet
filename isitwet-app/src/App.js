@@ -7,7 +7,6 @@ import Home from './components/Home';
 import LocationList from './components/location/LocationList';
 import LocationEdit from './components/location/LocationEdit';
 import WeatherDetail from './components/weather/WeatherDetail';
-import { AppNavbar } from './components/utils/AppNavbar';
 import { CallbackPage } from './components/utils/Callback';
 import { PageLoader } from './components/utils/PageLoader';
 import { ProtectedRoute } from "./auth/ProtectedRoute";
@@ -16,15 +15,13 @@ import { ProtectedRoute } from "./auth/ProtectedRoute";
 export const App = () => {
   const { isLoading } = useAuth0();
 
-  console.log(isLoading);
-
-  // if (isLoading) {
-  //   return (
-  //     <div className="page-layout">
-  //       <PageLoader />
-  //     </div>
-  //   );
-  // }
+  if (isLoading) {
+    return (
+      <div className="page-layout">
+        <PageLoader />
+      </div>
+    );
+  }
 
   return (
     <Switch>

@@ -8,13 +8,9 @@ export const Auth0ProviderWithHistory = ({ children }) => {
   const domain = process.env.REACT_APP_AUTH0_DOMAIN;
   const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
   const redirectUri = process.env.REACT_APP_AUTH0_CALLBACK_URL;
-  console.log(domain);
-  console.log(clientId);
-  console.log(redirectUri);
+  const audience = process.env.REACT_APP_AUTH0_AUDIENCE;
 
   const onRedirectCallback = (appState) => {
-    console.log(appState);
-    console.log(window.location.pathname);
     history.push(appState?.returnTo || window.location.pathname);
   };
 
@@ -28,6 +24,7 @@ export const Auth0ProviderWithHistory = ({ children }) => {
       clientId={clientId}
       authorizationParams={{
         redirect_uri: redirectUri,
+        audience: audience
       }}
       onRedirectCallback={onRedirectCallback}
     >

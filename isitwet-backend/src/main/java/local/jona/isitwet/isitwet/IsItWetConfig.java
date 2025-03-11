@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
+import local.jona.isitwet.isitwet.model.mapper.LocationMapper;
 import local.jona.isitwet.isitwet.model.mapper.OpenMeteoResultMapper;
 import local.jona.isitwet.isitwet.service.OpenMeteoClient;
 
@@ -38,5 +39,15 @@ public class IsItWetConfig {
     @Bean
     public OpenMeteoResultMapper getOpenMeteoResultMapper() {
         return new OpenMeteoResultMapper();
+    }
+
+    /**
+     * LocationMapper Bean.
+     *
+     * @return LocationMapper instance.
+     */
+    @Bean
+    public LocationMapper getLocationMapper() {
+        return new LocationMapper();
     }
 }
