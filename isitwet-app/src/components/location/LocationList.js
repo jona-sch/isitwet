@@ -155,21 +155,23 @@ const LocationList = () => {
                     <button color="primary" type="submit" className="button__search">Search</button>
                 </form>
 
-                <div style={{ maxHeight: "45rem", overflowY: "auto" }}>
-                    <table className="table" hover cellSpacing="0" cellPadding="0">
-                        <thead className="table-header__locations">
-                            <tr className="table-row">
-                                <th width="28%" style={{ paddingLeft: "1rem", textAlign: "left" }}>Name</th>
-                                <th width="28%">Longitude</th>
-                                <th width="28%">Latitude</th>
-                                <th width="16%"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {locationsList}
-                        </tbody>
-                    </table>
-                </div>
+                { locations.length > 0 ?
+                    <div style={{ maxHeight: "45rem", overflowY: "auto" }}>
+                        <table className="table" hover cellSpacing="0" cellPadding="0">
+                            <thead className="table-header__locations">
+                                <tr className="table-row">
+                                    <th width="28%" style={{ paddingLeft: "1rem", textAlign: "left" }}>Name</th>
+                                    <th width="28%">Longitude</th>
+                                    <th width="28%">Latitude</th>
+                                    <th width="16%"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {locationsList}
+                            </tbody>
+                        </table>
+                    </div>: <p>No locations for now.</p>
+                }
                 <div style={{ height: "40rem", width: "100%" }}>
                 <LeafletMapComponent
                     locations={locations}
