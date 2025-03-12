@@ -76,6 +76,8 @@ const WeatherDetail = () => {
     const rainEmoji = String.fromCodePoint(0x1F4A7);
     const snowEmoji = String.fromCodePoint(0x2744);
     const sunEmoji = String.fromCodePoint(0x2600);
+    const windEmoji = String.fromCodePoint(0x1F4A8);
+    const upwardsArrow = String.fromCodePoint(0x21D1)
 
     if (isLoading) {
         return <div className="page-layout">
@@ -318,6 +320,71 @@ const WeatherDetail = () => {
             </td>
         });
     }
+    const windSpeedsRow = (detailedIndex) => {
+        return weatherItem.daily.windSpeeds.map((windSpeed, index) => {
+            if (index === detailedIndex) {
+                return <>
+                    <td
+                        onMouseEnter={() => changeHoveredColumn(index)}
+                        onMouseLeave={() => changeHoveredColumn(-1)}
+                        className={index===2 ? "table-primary" : ""}
+                    >
+                        {weatherItem.quarterly.windSpeeds[index*4]} km/h
+                    </td>
+                    <td
+                        onMouseEnter={() => changeHoveredColumn(index)}
+                        onMouseLeave={() => changeHoveredColumn(-1)}
+                        className={index===2 ? "table-primary" : ""}
+                    >
+                        {weatherItem.quarterly.windSpeeds[index*4+1]} km/h
+                    </td>
+                    <td
+                        onMouseEnter={() => changeHoveredColumn(index)}
+                        onMouseLeave={() => changeHoveredColumn(-1)}
+                        className={index===2 ? "table-primary" : ""}
+                    >
+                        {weatherItem.quarterly.windSpeeds[index*4+2]} km/h
+                    </td>
+                    <td
+                        onMouseEnter={() => changeHoveredColumn(index)}
+                        onMouseLeave={() => changeHoveredColumn(-1)}
+                        className={index===2 ? "table-primary" : ""}
+                    >
+                        {weatherItem.quarterly.windSpeeds[index*4+3]} km/h
+                    </td>
+                </>
+            }
+            return <td
+                onMouseEnter={() => changeHoveredColumn(index)}
+                onMouseLeave={() => changeHoveredColumn(-1)}
+                className={index===2 ? "table-primary" : ""}
+            >
+                {windEmoji} {windSpeed} km/h
+            </td>
+        });
+    }
+    const windDirectionRow = (detailedIndex) => {
+        return weatherItem.daily.windDirections.map((windDirection, index) => {
+            if (index === detailedIndex) {
+                return <td
+                    onMouseEnter={() => changeHoveredColumn(index)}
+                    onMouseLeave={() => changeHoveredColumn(-1)}
+                    className={index===2 ? "table-primary" : ""}
+                    colspan="4"
+                >
+                    <div style={{ rotate: `${windDirection}deg`, fontSize: "1.8rem" }}><b>{upwardsArrow}</b></div>
+                </td>
+            }
+            return <td
+                onMouseEnter={() => changeHoveredColumn(index)}
+                onMouseLeave={() => changeHoveredColumn(-1)}
+                className={index===2 ? "table-primary" : ""}
+            >
+                <div style={{ rotate: `${windDirection}deg`, fontSize: "1.8rem" }}><b>{upwardsArrow}</b></div>
+            </td>
+        });
+    }
+
     const datesRow = (detailedIndex) => {
         return weatherItem.daily.dates.map((date, index) => {
             if (index === detailedIndex) {
@@ -422,6 +489,12 @@ const WeatherDetail = () => {
                                 </tr>
                                 <tr key="rainSum" className="table-row table-rain">
                                     {rainSumRow(hoveredColumn)}
+                                </tr>
+                                <tr key="windSpeeds" className="table-row table-wind">
+                                    {windSpeedsRow(hoveredColumn)}
+                                </tr>
+                                <tr key="windDirections" className="table-row table-wind">
+                                    {windDirectionRow(hoveredColumn)}
                                 </tr>
                             </tbody>
                         </table>

@@ -17,6 +17,8 @@ public class OpenMeteoResultMapper {
         var daily = result.new DailyWeather();
         daily.setDates(openMeteoResult.getDaily().getTimes());
         daily.setWeatherCodes(openMeteoResult.getDaily().getWeatherCodes());
+        daily.setWindSpeeds(openMeteoResult.getDaily().getWindSpeeds());
+        daily.setWindDirections(openMeteoResult.getDaily().getWindDirections());
 
         switch (openMeteoResult.getDailyUnits().getMaxTemperatureFormat()) {
             case CELSIUS:
@@ -94,6 +96,8 @@ public class OpenMeteoResultMapper {
         var hourly = result.new HourlyWeather();
         hourly.setTimes(openMeteoResult.getHourly().getTimes());
         hourly.setRelativeHumidity(openMeteoResult.getHourly().getRelativeHumidity());
+        hourly.setWindSpeeds(openMeteoResult.getHourly().getWindSpeeds());
+        hourly.setWindDirections(openMeteoResult.getHourly().getWindDirections());
 
         switch (openMeteoResult.getHourlyUnits().getTemperatureFormat()) {
             case CELSIUS:
@@ -141,9 +145,11 @@ public class OpenMeteoResultMapper {
         var quarterlyMinTemps = new ArrayList<Float>();
         var quarterlyRain = new ArrayList<Float>();
         var quarterlySnow = new ArrayList<Float>();
+        var quarterlyWindSpeeds = new ArrayList<Float>();
         for (var i = 0; i < hourly.getTimes().size(); i+=6) {
             quarterlyMaxTemps.add(Collections.max(hourly.getTemperatures().subList(i, i + 6)));
             quarterlyMinTemps.add(Collections.min(hourly.getTemperatures().subList(i, i + 6)));
+            quarterlyWindSpeeds.add(Collections.max(hourly.getWindSpeeds().subList(i, i + 6)));
             quarterlyRain.add((float) hourly.getRain().subList(i, i + 6).stream().mapToDouble(a -> a).sum());
             quarterlySnow.add((float) hourly.getSnow().subList(i, i + 6).stream().mapToDouble(a -> a).sum());
             quarterlyWeatherCodes.add((Integer) Collections.max(openMeteoResult.getHourly().getWeatherCodes().subList(i, i + 6)));
@@ -151,6 +157,7 @@ public class OpenMeteoResultMapper {
         quarterly.setMaxTemperatures(quarterlyMaxTemps);
         quarterly.setMinTemperatures(quarterlyMinTemps);
         quarterly.setWeatherCodes(quarterlyWeatherCodes);
+        quarterly.setWindSpeeds(quarterlyWindSpeeds);
         quarterly.setRainSum(quarterlyRain);
         quarterly.setSnow(quarterlySnow);
         result.setQuarterly(quarterly);
