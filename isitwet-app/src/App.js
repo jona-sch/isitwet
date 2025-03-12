@@ -7,6 +7,8 @@ import Home from './components/Home';
 import LocationList from './components/location/LocationList';
 import LocationEdit from './components/location/LocationEdit';
 import WeatherDetail from './components/weather/WeatherDetail';
+import SettingsPage from './components/settings/SettingsPage';
+import NotFoundPage from './components/notfound/NotFoundPage';
 import { CallbackPage } from './components/utils/Callback';
 import { PageLoader } from './components/utils/PageLoader';
 import { ProtectedRoute } from "./auth/ProtectedRoute";
@@ -29,7 +31,9 @@ export const App = () => {
       <ProtectedRoute as={Link} path='/locations' exact component={LocationList}/>
       <ProtectedRoute as={Link} path='/locations/:id' component={LocationEdit}/>
       <ProtectedRoute as={Link} path='/weather/:id' component={WeatherDetail}/>
+      <ProtectedRoute as={Link} path='/settings' exact component={SettingsPage}/>
       <Route as={Link} path='/callback' component={CallbackPage}/>
+      <Route as={Link} path='/*' component={NotFoundPage}/>
     </Switch>
   )
 }

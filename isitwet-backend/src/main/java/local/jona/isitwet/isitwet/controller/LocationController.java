@@ -3,6 +3,7 @@ package local.jona.isitwet.isitwet.controller;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,6 @@ import local.jona.isitwet.isitwet.data.Location;
 import local.jona.isitwet.isitwet.data.LocationRepository;
 import local.jona.isitwet.isitwet.model.dto.LocationDTO;
 import local.jona.isitwet.isitwet.model.mapper.LocationMapper;
-import local.jona.isitwet.isitwet.model.mapper.OpenMeteoResultMapper;
 
 
 @RestController
@@ -42,18 +42,24 @@ public class LocationController {
 
 
     @GetMapping
-    public List<Location> getLocations(@AuthenticationPrincipal Jwt jwt) {
+    public List<LocationDTO> getLocations(@AuthenticationPrincipal Jwt jwt) {
         var userId = jwt.getSubject();
-        return locationRepository.findByUserId(userId);
+        return locationRepository.findByUserId(userId)
+                                 .stream()
+                                 .map(locationMapper::locationToLocationDTO)
+                                 .collect(Collectors.toList());
     }
 
 
     @GetMapping("/query")
-    public List<Location> getLocation(@AuthenticationPrincipal Jwt jwt,
+    public List<LocationDTO> getLocation(@AuthenticationPrincipal Jwt jwt,
             @RequestParam(required = true) String nameSlice
     ) {
         var userId = jwt.getSubject();
-        return locationRepository.findByNameIgnoreCaseContainingAndUserId(nameSlice, userId);
+        return locationRepository.findByNameIgnoreCaseContainingAndUserId(nameSlice, userId)
+                                 .stream()
+                                 .map(locationMapper::locationToLocationDTO)
+                                 .collect(Collectors.toList());
     }
 
 
