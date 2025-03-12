@@ -8,7 +8,8 @@ export default function DetailedWeatherChart({ weatherItem, displayRain, display
       'Temperature': 1,
       'Relative humidity': 1,
       'Rain': 1,
-      'Snowfall': 1
+      'Snowfall': 1,
+      'Wind speed': 1
     });
 
     /**
@@ -17,6 +18,7 @@ export default function DetailedWeatherChart({ weatherItem, displayRain, display
      * To: [{times: t1, temperatues: 0.4}, {times: t2, temperatues: 1.2}, ...]
      */
     let weatherData = [];
+    let windDirectionByTime = {};
     for (let i = 0; i < weatherItem.hourly.times.length; i++) {
         weatherData.push({
             times: weatherItem.hourly.times[i],
@@ -24,7 +26,9 @@ export default function DetailedWeatherChart({ weatherItem, displayRain, display
             "Relative humidity": weatherItem.hourly.relativeHumidity[i],
             "Rain": weatherItem.hourly.rain[i],
             "Snowfall": weatherItem.hourly.snow[i],
+            "Wind speed": weatherItem.hourly.windSpeeds[i],
         });
+        windDirectionByTime[weatherItem.hourly.times[i]] = weatherItem.hourly.windDirections[i];
     }
 
     /**
@@ -61,34 +65,39 @@ export default function DetailedWeatherChart({ weatherItem, displayRain, display
         });
     };
 
+    /**
+     * CustomTooltip: WIP
+     */
+    // const CustomTooltip = ({ active, payload, label }) => {
+    //     if (active && payload && payload.length) {
+    //         return (
+    //             <div className="custom-tooltip" style={{background: "white", color: "black"}}>
+    //                 <p className="label" style={{background: "white", color: "black"}}>{`${label} : ${payload[0].value}`}</p>
+    //                 <p className="intro" style={{background: "white", color: "black"}}>{windDirectionByTime[label]} °</p>
+    //                 <p className="desc" style={{background: "white", color: "black"}}>Anything you want can be displayed here.</p>
+    //             </div>
+    //         );
+    //     }
+    
+    //     return null;
+    // };
+
     return (
         <div className="col-md-12">
             <ResponsiveContainer width="100%" height={300}>
                 <ComposedChart data={weatherData} margin={{ top: 15, right: 0, bottom: 15, left: 0 }}>
+                    {/* <Tooltip content={<CustomTooltip />} /> */}
                     <Tooltip />
                     <XAxis dataKey="times" interval={11}/>
                     <YAxis yAxisId="1" displayName="Temperature (°C)" label={{value: "°C", position: "insideTop"}}/>
                     <YAxis yAxisId="2" displayName="Humidity (%)" type="number" domain={[0, 100]} label={{value: "%", position: "insideTop"}}/>
                     <YAxis yAxisId="3" displayName="Rain (mm)" label={{value: "mm/cm", position: "insideTop"}}/>
+                    <YAxis yAxisId="4" displayName="Wind speed (km/h)" label={{value: "km/h", position: "insideTop"}}/>
                     <CartesianGrid stroke="#17A8F5" strokeDasharray="5 5" strokeOpacity={0.3} interval={12}/>
                     <Legend
                         height={30} iconType="circle"
                         onClick={props => handleLegendClick(props.dataKey)}
                         onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}
-                    />
-                    <Line
-                        hide={activeSeries.includes('Temperature')}
-                        strokeOpacity={opacity['Temperature']}
-                        yAxisId="1" type="monotone"
-                        dataKey="Temperature" stroke="#FB8833"
-                        unit="°C"
-                    />
-                    <Line
-                        hide={activeSeries.includes('Relative humidity')}
-                        strokeOpacity={opacity['Relative humidity']}
-                        yAxisId="2" type="monotone"
-                        dataKey="Relative humidity" stroke="#17A8F5"
-                        unit="%"
                     />
                     {displayRain ?
                         <Bar
@@ -112,6 +121,27 @@ export default function DetailedWeatherChart({ weatherItem, displayRain, display
                         />
                         : <></>
                     }
+                    <Line
+                        hide={activeSeries.includes('Temperature')}
+                        strokeOpacity={opacity['Temperature']}
+                        yAxisId="1" type="monotone"
+                        dataKey="Temperature" stroke="#FB8833"
+                        unit="°C"
+                    />
+                    <Line
+                        hide={activeSeries.includes('Relative humidity')}
+                        strokeOpacity={opacity['Relative humidity']}
+                        yAxisId="2" type="monotone"
+                        dataKey="Relative humidity" stroke="#17A8F5"
+                        unit="%"
+                    />
+                    <Line
+                        hide={activeSeries.includes('Wind speed')}
+                        strokeOpacity={opacity['Wind speed']}
+                        yAxisId="4" type="monotone"
+                        dataKey="Wind speed" stroke="#bdc4cf"
+                        unit="km/h"
+                    />
                     <ReferenceArea
                         yAxisId="2"
                         x1={weatherData[48].times} x2={weatherData[72].times}

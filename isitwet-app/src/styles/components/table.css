@@ -44,6 +44,10 @@
 	background: var(--indigo);
 }
 
+.table-wind {
+	background: var(--light-aluminium-transparent);
+}
+
 .table-data, .header__item {
 	flex: 1 1 20%;
 	text-align:center;

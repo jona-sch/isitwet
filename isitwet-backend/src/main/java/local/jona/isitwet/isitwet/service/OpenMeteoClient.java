@@ -36,8 +36,8 @@ public class OpenMeteoClient {
     public OpenMeteoResult getWeather(Float longitude, Float latitude, String timezone) {
         var url = this.openMeteoUrl
             + "/forecast?latitude=" + latitude + "&longitude=" + longitude
-            + "&daily=temperature_2m_max,temperature_2m_min,sunshine_duration,rain_sum,weather_code,snowfall_sum"
-            + "&hourly=temperature_2m,relative_humidity_2m,rain,snowfall,weather_code"
+            + "&daily=temperature_2m_max,temperature_2m_min,sunshine_duration,rain_sum,weather_code,snowfall_sum,wind_speed_10m_max,wind_direction_10m_dominant"
+            + "&hourly=temperature_2m,relative_humidity_2m,rain,snowfall,weather_code,wind_speed_10m,wind_direction_10m"
             + "&past_days=2"
             + "&forecast_days=2"
             + "&timezone=" + timezone;
@@ -45,6 +45,7 @@ public class OpenMeteoClient {
 
         try {
             var response = this.restTemplate.exchange(url, HttpMethod.GET, request, OpenMeteoResult.class);
+            // System.out.println(response.getBody());
             if (response.getStatusCode().is2xxSuccessful()) {
                 return response.getBody();
             } else {

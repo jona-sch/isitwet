@@ -89,6 +89,18 @@ public class WeatherDTO {
          */
         @JsonProperty(required = true)
         private List<Float> snow;
+
+        /**
+         * Wind speeds (in km/h).
+         */
+        @JsonProperty(required = true)
+        private List<Float> windSpeeds;
+
+        /**
+         * Wind directions (in °).
+         */
+        @JsonProperty(required = true)
+        private List<Float> windDirections;
     }
 
     
@@ -130,6 +142,12 @@ public class WeatherDTO {
          */
         @JsonProperty(required = true)
         private List<Float> snow;
+
+        /**
+         * Wind speeds (in km/h).
+         */
+        @JsonProperty(required = true)
+        private List<Float> windSpeeds;
     }
 
     
@@ -164,5 +182,17 @@ public class WeatherDTO {
          */
         @JsonProperty(required = true)
         private List<Float> snow;
+
+        /**
+         * Wind speeds (in km/h).
+         */
+        @JsonProperty(required = true)
+        private List<Float> windSpeeds;
+
+        /**
+         * Wind directions (in °).
+         */
+        @JsonProperty(required = true)
+        private List<Float> windDirections;
     }
 }

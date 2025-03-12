@@ -112,6 +112,18 @@ public class OpenMeteoResult {
          */
         @JsonProperty("snowfall_sum")
         private PrecipitationFormat snowfallFormat;
+    
+        /**
+         * Wind speed format.
+         */
+        @JsonProperty("wind_speed_10m_max")
+        private String windSpeedFormat;
+    
+        /**
+         * Wind direction format.
+         */
+        @JsonProperty("wind_direction_10m_dominant")
+        private String windDirectionFormat;
     }
 
 
@@ -147,6 +159,18 @@ public class OpenMeteoResult {
          */
         @JsonProperty("snowfall")
         private PrecipitationFormat snowfallFormat;
+    
+        /**
+         * Wind speed format.
+         */
+        @JsonProperty("wind_speed_10m")
+        private String windSpeedFormat;
+    
+        /**
+         * Wind direction format.
+         */
+        @JsonProperty("wind_direction_10m")
+        private String windDirectionFormat;
     }
 
 
@@ -194,6 +218,18 @@ public class OpenMeteoResult {
          */
         @JsonProperty("snowfall_sum")
         private List<Float> snowfallSums;
+    
+        /**
+         * Wind speeds.
+         */
+        @JsonProperty("wind_speed_10m_max")
+        private List<Float> windSpeeds;
+    
+        /**
+         * Wind directions.
+         */
+        @JsonProperty("wind_direction_10m_dominant")
+        private List<Float> windDirections;
     }
 
 
@@ -235,6 +271,18 @@ public class OpenMeteoResult {
          */
         @JsonProperty("weather_code")
         private List<Integer> weatherCodes;
+    
+        /**
+         * Wind speeds.
+         */
+        @JsonProperty("wind_speed_10m")
+        private List<Float> windSpeeds;
+    
+        /**
+         * Wind directions.
+         */
+        @JsonProperty("wind_direction_10m")
+        private List<Float> windDirections;
     }
 
 }
