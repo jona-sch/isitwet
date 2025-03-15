@@ -197,3 +197,15 @@
     line-height: 1.6rem;
   }
 }
+
+@media only screen and (max-width: 400px) {
+  .button__login,
+  .button__logout,
+  .button__sign-up,
+  .button__add_location {
+    padding: 0.5rem 0.9rem;
+
+    font-size: 1.2rem;
+    line-height: 1.2rem;
+  }
+}

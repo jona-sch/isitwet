@@ -170,7 +170,7 @@ const LocationList = () => {
                                 {locationsList}
                             </tbody>
                         </table>
-                    </div>: <p>No locations for now.</p>
+                    </div>: <p>No locations.</p>
                 }
                 <div style={{ height: "40rem", width: "100%" }}>
                 <LeafletMapComponent
