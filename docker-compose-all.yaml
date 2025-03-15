@@ -1,0 +1,46 @@
+services:
+  mysql:
+    image: mysql:8
+    container_name: mysql
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_USER=myuser
+      - MYSQL_PASSWORD=mypassword
+      - MYSQL_DATABASE=isitwet_db
+      - MYSQL_ROOT_PASSWORD=root
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - /opt/mysql_data:/var/lib/mysql
+      - ./dev-tools/schema.sql:/docker-entrypoint-initdb.d/create-schema.sql
+
+  spring-boot-app:
+    # depends_on:
+    #   mysql:
+    #     condition: service_healthy
+    build: ./isitwet-backend
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: "curl --fail --silent --insecure http://localhost:8080/actuator/health | grep UP || exit 1"
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  react-app:
+    build: ./isitwet-app
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - spring-boot-app
+    volumes:
+      - /etc/certs/isitwet:/etc/certs/
