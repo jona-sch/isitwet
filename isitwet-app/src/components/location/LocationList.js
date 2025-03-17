@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom';
 
 import LeafletMapComponent from '../map/LeafletMapComponent';
 
 import { PageLayout } from '../utils/PageLayout';
-import { PageLoader } from '../utils/PageLoader';
 
 const LocationList = () => {
     // const isAuthenticated = true;
 
     const [locations, setLocations] = useState([]);
     const [searchName, setSearchName] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
     const [isLoading, setIsLoading] = useState(true);
     const { getAccessTokenSilently, isAuthenticated } = useAuth0();
     const [token, setToken] = useState("");
@@ -23,16 +23,21 @@ const LocationList = () => {
                     scope: "read:current_user"
                 });
                 setToken(accessToken);
-                fetch('/api/v1/locations', {
+                const response = await fetch('/api/v1/locations', {
                     method: 'GET',
                     headers: {
                       Authorization: `Bearer ${accessToken}`,
                     }
-                }).then(response => response.json())
-                    .then(data => {
-                        setLocations(data);
-                        setIsLoading(false);
-                    });
+                })
+                console.info(response);
+                if (!response.ok) {
+                    console.error(`HTTP error! status: ${response.status}`);
+                    setErrorMessage("Problem while fetching locations.");
+                }
+                else {
+                    setLocations(await response.json());
+                    setIsLoading(false);
+                }
             } catch (error) {
                 console.error("Error fetching token:", error);
             }
@@ -41,8 +46,7 @@ const LocationList = () => {
         if (isAuthenticated) {
             fetchToken();
         }
-        console.log("abc: " + token);
-    }, [getAccessTokenSilently, isAuthenticated, token]);
+    }, [getAccessTokenSilently, isAuthenticated]);
 
     const handleChange = (event) => {
         const value = event.target.value;
@@ -170,7 +174,7 @@ const LocationList = () => {
                                 {locationsList}
                             </tbody>
                         </table>
-                    </div>: <p>No locations.</p>
+                    </div>: <p>No locations: {errorMessage}</p>
                 }
                 <div style={{ height: "40rem", width: "100%" }}>
                 <LeafletMapComponent

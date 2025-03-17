@@ -81,7 +81,7 @@
   margin-bottom: 3.2rem;
 
   font-size: 20px;
-  line-height: 3.2rem;
+  line-height: 2rem;
 }
 
 @media only screen and (max-width: 540px) {
@@ -110,6 +110,6 @@
 
   .banner__description {
     font-size: 1.6rem;
-    line-height: 2.4rem;
+    line-height: 1.4rem;
   }
 }
