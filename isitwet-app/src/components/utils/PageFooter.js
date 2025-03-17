@@ -28,17 +28,6 @@ export const PageFooter = () => {
                 </a></span>
             </p>
           </div>
-          <div className="page-footer-info__button">
-            <a
-              id="github-button"
-              className="button button--secondary"
-              href="https://github.com/jona-sch/isitwet"
-              target="_blank"
-              rel="noreferrer noopener"
-            >
-              Source code
-            </a>
-          </div>
         </div>
       </div>
     </footer>
