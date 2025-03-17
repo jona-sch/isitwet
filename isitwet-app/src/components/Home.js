@@ -39,9 +39,9 @@ export const Home = () => {
         <PageLayout>
           <div className="banner banner--pink-yellow">
               <div className="banner__logo">
-                  <img className="banner__image" src={isItWetBrand} alt="IsItWet logo" />
+                  <img className="banner__image" src={isItWetBrand} alt="WeatherToClimb logo" />
               </div>
-              <h1 className="banner__headline">IsItWet</h1>
+              <h1 className="banner__headline">WeatherToClimb</h1>
               <p className="banner__description">
                   A cool website to check conditions for the day, but also (and most
                   importantly), conditions for the two previous days. <br></br>
@@ -57,7 +57,7 @@ export const Home = () => {
               </a></NavLink>
           </div>
           <div className="isitwet-features">
-            <h2 className="isitwet-features__title">IsItWet Tutorial</h2>
+            <h2 className="isitwet-features__title">WeatherToClimb Tutorial</h2>
             <div className="isitwet-features__grid">
                 {featuresList.map((feature) => (
                 <TutorialFeature
